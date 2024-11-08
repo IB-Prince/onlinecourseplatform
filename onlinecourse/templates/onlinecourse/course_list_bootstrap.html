@@ -35,5 +35,28 @@
                 </ul>
             </div>
         </nav>
+        <!-- Page content -->
+        {% if course_list %}
+            <div class="container">
+                <div class="card-deck">
+                    {% for course in course_list %}
+                    <div class="card" style="width: 36rem;">
+                        <img src="{{course.img.url}}" alt="Course image" class="card-img-left">
+                        <div class="card-body bg-light">
+                            <h5 class="card-title">{{ course.name }}, <span class="text-success">{{ course.total_enrollment }} enrolled</span></h5>
+                            <p class="card-text">{{ course.description }}</p>
+                            <form action="{% url 'onlinecourse:enroll' course.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary"
+                                    value="{% if course.is_enrolled %}Enter{% else %} Enroll{% endif %}">
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+        <p>No courses are available.</p>
+        {% endif %}
     </body>
 </html>
