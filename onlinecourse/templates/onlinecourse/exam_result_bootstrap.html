@@ -34,15 +34,15 @@
             </div>
         </nav>
         <div class="container-fluid">
-            {% if grade > 80 %}
+            {% if percentage_score > 80 %}
             <div class="alert alert-success">
-                <b>Congratulations, {{ user.first_name }}!</b> You have passed the exam and completed the course with score {{ grade }}/100
+                <b>Congratulations, {{ user.first_name }}!</b> You have passed the exam and completed the course with score {{ grade }} with {{ percentage_score }}%
             </div>
             {% else %}
             <div class="alert alert-danger">
-                <b>Faield</b> Sorry, {{ user.first_name }}! You have failed the exam with score {{ grade }}/100
+                <b>Faield</b> Sorry, {{ user.first_name }}! You have failed the exam with score {{ grade }} with {{ percentage_score }}%
             </div>
-            <a href="{% url 'onlinecourse:course_detailes' course.id %}" class="btn btn-link text-danger">Re-test</a>
+            <a href="{% url 'onlinecourse:course_details' course.id %}" class="btn btn-link text-danger">Re-test</a>
             {% endif %}
             <div class="card-columns-vertical mt-1">
                 <h5>Exam results</h5>

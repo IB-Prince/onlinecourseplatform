@@ -31,9 +31,9 @@ def registration_request(request):
             user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, password=password)
             login(request, user)
             return redirect("onlinecourse:index")
-    else:
-        context['message'] = "User already exists."
-        return render(request, 'onlinecourse/user_registration_bootstrap.thml', context)
+        else:
+            context['message'] = "User already exists."
+            return render(request, 'onlinecourse/user_registration_bootstrap.thml', context)
 
 def login_request(request):
     context = {}
@@ -76,19 +76,19 @@ class CourseListView(generic.ListView):
 
 class CourseDetailView(generic.DetailView):
     model = Course
-    template_name = 'onlinecours/course_detail_bootstrap.html'
+    template_name = 'onlinecourse/course_detail_bootstrap.html'
 
 def enroll(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     user = request.user
 
     is_enrolled = check_if_enrolled(user, course)
-    if not is_enrolled and user.is_autheticated:
+    if not is_enrolled and user.is_authenticated:
         Enrollment.objects.create(user=user, course=course, mode='honor')
         course.total_enrollment += 1
         course.save()
 
-    return HttpResponseRedirect(reverse(viewname='onlinecourse:course_details', args=(course_id)))
+    return HttpResponseRedirect(reverse(viewname='onlinecourse:course_details', args=(course_id,)))
     
 def submit(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
@@ -114,13 +114,22 @@ def show_exam_result(request, course_id, submission_id):
     context = {}
     course = get_object_or_404(Course, pk=course_id)
     submission = Submission.objects.get(id=submission_id)
+    questions = Question.objects.filter(course=course)
+
+    total_grade_points = sum(question.grade for question in questions)
     choices = submission.choices.all()
     total_score = 0
     for choice in choices:
         if choice.is_correct:
             total_score += choice.question.grade
+
+    if total_grade_points > 0:
+        percentage_score = (total_score / total_grade_points) * 100
+    else:
+        percentage_score = 0
     context['course'] = course
     context['grade'] = total_score
+    context['percentage_score'] = percentage_score
     context['choices'] = choices
 
     return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
