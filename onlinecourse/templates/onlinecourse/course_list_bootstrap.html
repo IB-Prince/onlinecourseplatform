@@ -41,7 +41,7 @@
                 <div class="card-deck">
                     {% for course in course_list %}
                     <div class="card" style="width: 36rem;">
-                        <img src="{{course.img.url}}" alt="Course image" class="card-img-left">
+                        <img src="{{ course.image.url }}" alt="Course image" class="card-img-left">
                         <div class="card-body bg-light">
                             <h5 class="card-title">{{ course.name }}, <span class="text-success">{{ course.total_enrollment }} enrolled</span></h5>
                             <p class="card-text">{{ course.description }}</p>

@@ -57,6 +57,12 @@ class Course(models.Model):
     pub_date = models.DateField(null=True)
     instructor = models.ManyToManyField(Instructor)
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Enrollment')
+    total_enrollment = models.IntegerField(default=0)
+    is_enrolled = False
+
+    def __str__(self):
+        return "Name: " + self.name + ", " \
+            "Description: " + self.description
 
 # Lesson model
 class Lesson(models.Model):

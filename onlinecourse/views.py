@@ -63,7 +63,7 @@ def check_if_enrolled(user, course):
     return is_enrolled
 
 class CourseListView(generic.ListView):
-    template_name = 'onlinecourse/cours_list_bootstrap.html'
+    template_name = 'onlinecourse/course_list_bootstrap.html'
     context_object_name = 'course_list'
 
     def get_queryset(self):
