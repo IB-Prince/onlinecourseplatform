@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}eLearning Platform{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{% static 'onlinecourse/css/theme.css' %}">
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body class="role-{{ role }}">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand fw-semibold" href="{% url 'onlinecourse:index' %}">eLearning</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav" aria-controls="topnav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="topnav">
+          <ul class="navbar-nav me-auto">
+            {% if is_instructor %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'onlinecourse:index' %}">My Courses</a></li>
+            {% elif is_learner %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'onlinecourse:index' %}">My Learning</a></li>
+            {% endif %}
+            {% if is_admin %}
+            <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
+            {% endif %}
+          </ul>
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            {% if user.is_authenticated %}
+            <li class="nav-item me-2">
+              <span class="navbar-text text-white-50">
+                {{ user.first_name|default:user.username }}
+                <small class="badge bg-secondary ms-1">{{ role }}</small>
+              </span>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'onlinecourse:logout' %}" class="btn btn-outline-light btn-sm">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <form class="d-flex gap-2" action="{% url 'onlinecourse:login' %}" method="post">
+                {% csrf_token %}
+                <input type="text" class="form-control form-control-sm" placeholder="Username" name="username" required />
+                <input type="password" class="form-control form-control-sm" placeholder="Password" name="psw" required />
+                <button class="btn btn-primary btn-sm" type="submit">Login</button>
+                <a class="btn btn-outline-light btn-sm" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
+              </form>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% if is_guest %}
+    <div class="bg-primary bg-opacity-10 border-bottom border-primary py-1 small text-center text-primary">Welcome! Please log in or sign up to enroll in courses.</div>
+    {% endif %}
+
+    <main class="py-4">
+      {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'onlinecourse/js/app.js' %}"></script>
+    {% block extra_scripts %}{% endblock %}
+  </body>
+</html>

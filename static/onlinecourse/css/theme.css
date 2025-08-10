@@ -1,0 +1,57 @@
+/* Global theme for eLearning Platform */
+:root {
+  --brand-primary: #0d6efd;
+  --brand-secondary: #6f42c1;
+  --bg-soft: #f8fafc;
+  --text-muted: #6c757d;
+  --card-radius: 1rem;
+}
+
+html, body {
+  height: 100%;
+}
+body {
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(13,110,253,.08), transparent),
+    radial-gradient(800px 400px at 90% 30%, rgba(111,66,193,.1), transparent),
+    linear-gradient(180deg, #f8fafc, #eef2f7);
+}
+
+.navbar-brand i { color: #fff; }
+.brand-gradient {
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.card-elevated {
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: var(--card-radius);
+}
+.card-img-left {
+  object-fit: cover;
+  max-height: 220px;
+}
+
+/* Forms */
+.form-floating > label { color: var(--text-muted); }
+.form-control:focus {
+  box-shadow: 0 0 0 .25rem rgba(13,110,253,.15);
+  border-color: rgba(13,110,253,.6);
+}
+
+/* Utilities */
+.shadow-xl { box-shadow: 0 1.25rem 1.5rem rgba(0,0,0,.09) !important; }
+.rounded-xl { border-radius: var(--card-radius) !important; }
+
+/* Course cards grid */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Exam page tweaks */
+.exam-card .card-header { background: rgba(13,110,253,.08); }
+.exam-card .form-check-input:checked { background-color: var(--brand-primary); border-color: var(--brand-primary); }

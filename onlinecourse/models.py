@@ -98,12 +98,11 @@ class Question(models.Model):
         return "Question: " + self.content
 
     def is_get_score(self, selected_ids):
-        all_answers = self.choice_set.filters(is_correct=True).count()
-        selected_correct = self.choice_set.filters(is_correct=True, id__in=selected_ids).count()
-        if all_answers == selected_correct:
-            return True
-        else:
-            return False
+        correct_ids = set(self.choice_set.filter(is_correct=True).values_list('id', flat=True))
+        selected_ids = set(selected_ids)
+        wrong_selected = self.choice_set.filter(is_correct=False, id__in=selected_ids).exists()
+        return not wrong_selected and selected_ids == correct_ids
+        
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

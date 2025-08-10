@@ -1,6 +1,4 @@
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
 from . import views
 
 app_name = 'onlinecourse'
@@ -13,5 +11,7 @@ urlpatterns = [
     path('<int:course_id>/enroll/', views.enroll, name='enroll'),
     path('<int:course_id>/submit/', views.submit, name='submit'),
     path('course/<int:course_id>/submission/<int:submission_id>/result/', views.show_exam_result, name='exam_result'),
+    path('course/<int:course_id>/lesson/add/', views.add_lesson, name='add_lesson'),
+    path('course/<int:course_id>/question/add/', views.add_question, name='add_question'),
+]
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

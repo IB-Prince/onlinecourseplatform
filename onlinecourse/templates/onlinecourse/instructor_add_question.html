@@ -1,0 +1,22 @@
+{% extends 'onlinecourse/base.html' %}
+{% block title %}Add Question • eLearning{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h1 class="h4 brand-gradient mb-3">Add Question to {{ course.name }}</h1>
+  <form method="post" class="card card-elevated shadow-xl p-3 p-md-4">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Question</label>
+      {{ form.content }}
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Grade</label>
+      {{ form.grade }}
+    </div>
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary">Save Question</button>
+      <a href="{% url 'onlinecourse:course_details' course.id %}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
